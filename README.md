@@ -26,7 +26,7 @@ A Next.js + Supabase examination application for recruiting five founding member
    npm run dev
    ```
 
-6. Visit `http://localhost:3000/admin`; log in and add at least **five active questions**. You can add more, up to 60 questions per exam.
+6. Visit `http://localhost:3000/admin`; log in and review the **20 private MCQs / 100 marks already added to the dedicated Supabase project**. You can add or archive questions, up to 60 active questions per exam.
 7. Visit `http://localhost:3000`; register with a different test phone number to try a candidate attempt (this will create a real attempt in your database).
 8. Deploy on Vercel and add the **same four env vars** in the Vercel project settings. Avoid any `NEXT_PUBLIC_` prefix for your secret key.
 9. Test registration, browser switch disqualification, submission, question management, and results access on the deployed site *before* inviting students.
