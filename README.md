@@ -60,3 +60,12 @@ A Next.js + Supabase examination application for recruiting five founding member
 ## Launch control
 
 Recruitment is **closed by default**. Set `EXAM_OPEN=true` in your Vercel Production (and, if desired, Preview) environment only after you have tested the admin login, database, question bank and candidate flow. Redeploy after changing this variable. Set it back to `false` and redeploy to stop **new** registrations. Existing attempts can still finish; do not use this flag as a kill switch for active exams.
+
+## Final exam operation
+- The current **live** question bank is a beginner-friendly 20-question, 100-mark set kept in the dedicated Supabase database, not in this public repository.
+- Candidate-facing pages collect explicit consent for personal data use and notify candidates about disqualification reviews.
+- At the end of the 35-minute countdown, the frontend submits automatically. The backend accepts a **10-second network grace** to receive this request, after which unsubmitted attempts time out with zero. This is a transport grace, not advertised additional writing time.
+- Supabase has archived the previous hard question bank without deleting the existing attempt, so older results can still be reviewed.
+- To invite students, the public production domain must be accessible without Vercel Authentication, while **Preview** should remain protected. Keep the app's `/admin` login enabled.
+- Before public launch, verify the anonymous `/api/admin/overview` response is `401`; open `/api/state` returns `ready` only after setting `EXAM_OPEN=true` and deploying with that setting.
+- Candidate answers and personal information are not published. Decide your organizer contact and retention deadline before inviting students.

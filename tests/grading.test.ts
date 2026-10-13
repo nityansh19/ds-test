@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {gradeSubmission,hasExamExpired} from "../lib/grading";
+import {gradeSubmission,hasExamExpired,hasExamExpiredWithGrace,SUBMISSION_GRACE_MS} from "../lib/grading";
 
 const items = [
   {id:"python-1",answer_index:1,points:5},
@@ -60,4 +60,14 @@ test("expired or malformed deadlines are rejected",()=>{
   assert.equal(hasExamExpired(new Date(now).toISOString(),now),true);
   assert.equal(hasExamExpired(new Date(now+1).toISOString(),now),false);
   assert.equal(hasExamExpired("invalid",now),true);
+});
+
+
+test("automatic submissions are accepted during short network grace and expire afterward",()=>{
+  const end=Date.UTC(2026,9,13,19,0,0);
+  const deadline=new Date(end).toISOString();
+  assert.equal(SUBMISSION_GRACE_MS,10000);
+  assert.equal(hasExamExpiredWithGrace(deadline,end),false);
+  assert.equal(hasExamExpiredWithGrace(deadline,end+9999),false);
+  assert.equal(hasExamExpiredWithGrace(deadline,end+10001),true);
 });

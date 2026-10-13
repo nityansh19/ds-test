@@ -141,10 +141,10 @@ export default function Home() {
         <form className="panel register" onSubmit={start}>
           <div className="step">01 / CANDIDATE REGISTRATION</div>
           <h2>Enter the assessment.</h2>
-          <p>Your details and score will only be visible to authorized organizers.</p>
+          <p>Only authorized organizers can view your details and score. Please contact them for questions about your data or a disqualification review.</p>
           <label>FULL NAME<input required minLength={2} maxLength={80} autoComplete="name" placeholder="Your full name" value={name} onChange={e=>setName(e.target.value)}/></label>
           <label>PHONE NUMBER<input required type="tel" autoComplete="tel" placeholder="10-digit number" value={phone} onChange={e=>setPhone(e.target.value)}/></label>
-          <label className="checkline"><input type="checkbox" checked={agreed} onChange={e=>setAgreed(e.target.checked)}/><span>I understand the 35-minute limit, one-attempt policy, strict focus monitoring, and that my contact details will be used for recruitment.</span></label>
+          <label className="checkline"><input type="checkbox" checked={agreed} onChange={e=>setAgreed(e.target.checked)}/><span>I agree to the 35-minute, one-attempt test rules. The organizers will use my name, phone number, answers, and score only for recruitment. I understand that losing browser focus may disqualify me, and I can contact the club organizers to request a review of interruptions or deletion of my details.</span></label>
           {error && <p className="error">{error}</p>}
           <button type="submit" className="primary">BEGIN ASSESSMENT <span>↗</span></button>
           <p className="micro">Once you begin, keep this page open. Do not switch windows.</p>

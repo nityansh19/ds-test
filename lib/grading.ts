@@ -38,6 +38,13 @@ export function gradeSubmission(
 }
 
 /** A malformed expiration is treated as already expired (fail closed). */
+/** Small network grace so automatic submission at 00:00 can reach the server. */
+export const SUBMISSION_GRACE_MS = 10_000;
+
+export function hasExamExpiredWithGrace(endsAt: string, now = Date.now()): boolean {
+  return hasExamExpired(endsAt, now - SUBMISSION_GRACE_MS);
+}
+
 export function hasExamExpired(endsAt: string, now = Date.now()): boolean {
   const time = Date.parse(endsAt);
   return !Number.isFinite(time) || time <= now;
