@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     const prior = await currentAttempt();
     if (prior) return NextResponse.json({error:"This browser already has a registered attempt."},{status:409});
+    if (process.env.EXAM_OPEN !== "true") return NextResponse.json({error:"Recruitment is not open yet."},{status:403});
     const body = await req.json();
     const name = String(body.name ?? "").trim().replace(/\s+/g," ");
     const phone = String(body.phone ?? "").trim().replace(/[\s()-]/g,"");

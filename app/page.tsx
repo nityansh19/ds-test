@@ -129,7 +129,7 @@ export default function Home() {
     <div className="content">
       {mode==="loading" && <section className="panel center"><div className="spinner"/><p>Loading assessment...</p></section>}
       {mode==="error" && <section className="panel center"><h2>Connection unavailable</h2><p>{error}</p><button onClick={()=>location.reload()}>Retry</button></section>}
-      {mode==="unavailable" && <section className="panel hero"><div className="eyebrow">RECRUITMENT / COMING SOON</div><h1>Think in <em>data.</em><br/>Build what&apos;s next.</h1><p>The question bank is being prepared. Recruitment opens after the organizers publish at least five questions.</p><div className="pill">CHECK BACK FOR THE ANNOUNCEMENT</div></section>}
+      {mode==="unavailable" && <section className="panel hero"><div className="eyebrow">RECRUITMENT / COMING SOON</div><h1>Think in <em>data.</em><br/>Build what&apos;s next.</h1><p>Recruitment is not open yet. The founding-team assessment will become available when organizers announce the official test window.</p><div className="pill">CHECK BACK FOR THE ANNOUNCEMENT</div></section>}
       {mode==="ready" && <section className="heroGrid">
         <div className="hero">
           <div className="eyebrow"><span className="eyeline"/> THE FOUNDING FIVE · OFFICIAL ENTRY</div>

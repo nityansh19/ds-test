@@ -56,3 +56,7 @@ A Next.js + Supabase examination application for recruiting five founding member
 - Consent notice approved
 - Backup date and appeal mechanism for false-positive disqualifications
 - Private results announcement plan
+
+## Launch control
+
+Recruitment is **closed by default**. Set `EXAM_OPEN=true` in your Vercel Production (and, if desired, Preview) environment only after you have tested the admin login, database, question bank and candidate flow. Redeploy after changing this variable. Set it back to `false` and redeploy to stop **new** registrations. Existing attempts can still finish; do not use this flag as a kill switch for active exams.

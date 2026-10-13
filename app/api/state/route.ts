@@ -16,6 +16,7 @@ export async function GET() {
         questions:await publicQuestions(attempt.question_ids)
       }, {headers:{"Cache-Control":"no-store"}});
     }
+    if (process.env.EXAM_OPEN !== "true") return NextResponse.json({state:"unavailable"}, {headers:{"Cache-Control":"no-store"}});
     const {count,error} = await db().from("questions")
       .select("id",{count:"exact",head:true}).eq("active",true);
     if (error) throw error;
