@@ -2,6 +2,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import { cookies } from "next/headers";
 import { db } from "@/lib/db";
+import { hasExamExpired } from "@/lib/grading";
 
 export type Attempt = {
   id: string;
@@ -24,7 +25,7 @@ export async function currentAttempt(): Promise<Attempt | null> {
     .eq("session_hash", tokenHash(token))
     .maybeSingle();
   if (error || !data) return null;
-  if (data.status === "active" && new Date(data.ends_at).getTime() <= Date.now()) {
+  if (data.status === "active" && hasExamExpired(data.ends_at)) {
     await db().from("attempts")
       .update({status:"timed_out", score:0, violation_reason:"Time limit expired", completed_at:new Date().toISOString()})
       .eq("id", data.id).eq("status","active");
