@@ -1,3 +1,25 @@
+/** Retain only valid option indexes from questions assigned to this attempt. */
+export function sanitizeAnswers(
+  assignedIds: readonly string[],
+  providedAnswers: unknown
+): Record<string, number> {
+  const allowed = new Set(assignedIds);
+  const answers =
+    providedAnswers !== null &&
+    typeof providedAnswers === "object" &&
+    !Array.isArray(providedAnswers)
+      ? providedAnswers as Record<string, unknown>
+      : {};
+  const clean: Record<string, number> = Object.create(null);
+  for (const [id, value] of Object.entries(answers)) {
+    if (allowed.has(id) && Number.isInteger(value) && (value as number) >= 0 &&
+      (value as number) <= 3) {
+      clean[id] = value as number;
+    }
+  }
+  return clean;
+}
+
 export type ScoringQuestion = {
   id: string;
   answer_index: number;
@@ -15,21 +37,7 @@ export function gradeSubmission(
   providedAnswers: unknown
 ): { score: number; clean: Record<string, number> } {
   const allowed = new Set(assignedIds);
-  const answers =
-    providedAnswers !== null &&
-    typeof providedAnswers === "object" &&
-    !Array.isArray(providedAnswers)
-      ? providedAnswers as Record<string, unknown>
-      : {};
-  const clean: Record<string, number> = Object.create(null);
-
-  for (const [id, value] of Object.entries(answers)) {
-    if (allowed.has(id) && Number.isInteger(value) && (value as number) >= 0 &&
-      (value as number) <= 3) {
-      clean[id] = value as number;
-    }
-  }
-
+  const clean = sanitizeAnswers(assignedIds, providedAnswers);
   const score = questions.reduce((total, question) => {
     if (!allowed.has(question.id)) return total;
     return total + (clean[question.id] === question.answer_index ? question.points : 0);

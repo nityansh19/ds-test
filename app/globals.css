@@ -122,3 +122,41 @@ input::placeholder,textarea::placeholder{color:#67778b}
 .empty{padding:35px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px;margin-top:24px}
 @media(max-width:850px){.heroGrid,.questionAdminGrid{grid-template-columns:1fr;gap:30px}.content{padding:35px 18px}.topbar,.footer{padding:19px 18px}.hero h1{font-size:55px}.panel{padding:25px}.metrics{gap:22px}.stats{grid-template-columns:repeat(2,1fr)}.topright{display:none}.examFoot{flex-wrap:wrap}.navDots{order:3;width:100%}.questionCard{padding:22px}.adminHead h1{font-size:35px}.panelHead{align-items:flex-start;flex-direction:column}.actions{flex-wrap:wrap}}
 @media(max-width:430px){.hero h1{font-size:46px;letter-spacing:-2.8px}.metrics strong{font-size:27px}.metrics small{font-size:8px}.register h2{font-size:25px}.examHead h2{font-size:24px}.clock{font-size:16px;padding:10px}.wordmark{font-size:10px}.footer{font-size:8px}}
+
+/* Private answer-review panel */
+.reviewButton{border:1px solid #3c655e;border-radius:8px;background:#17332f;color:var(--accent);font:10px "DM Mono",monospace;padding:10px 12px;white-space:nowrap}
+.reviewButton:hover,.reviewButton.active{border-color:var(--accent);background:#225048}
+.reviewPanel{margin-top:24px;background:#0f1927;border:1px solid #3c6e68;border-radius:16px;padding:28px}
+.reviewTop{display:flex;justify-content:space-between;align-items:start;gap:18px}
+.reviewTop .step{margin-bottom:8px}
+.reviewTop h3{font-size:26px;margin-bottom:6px}
+.reviewTop p{color:var(--muted);font-size:13px;line-height:1.5}
+.reviewTop p b{color:var(--text)}
+.reviewCounts{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+.reviewCounts span{background:#192739;border:1px solid var(--line);border-radius:10px;padding:11px 15px;color:var(--muted);font-size:12px}
+.reviewCounts b{color:var(--text);font-size:19px;margin-right:5px}
+.reviewWarning{background:#412b2c;border:1px solid #92585a;border-radius:9px;padding:13px 15px;color:#ffd0d1;font-size:12px;line-height:1.7}
+.reviewHint{color:var(--muted);font-size:12px;line-height:1.65}
+.reviewFilters{display:flex;gap:8px;flex-wrap:wrap;margin:17px 0 22px}
+.reviewFilters button{background:#162234;color:var(--muted);border:1px solid var(--line);padding:10px 12px;border-radius:8px;font:11px "DM Mono",monospace}
+.reviewFilters button.active{color:var(--accent);border-color:var(--accent);background:#183b34}
+.reviewQuestions{display:grid;gap:15px}
+.reviewQuestion{padding:21px;border:1px solid var(--line);border-radius:12px;background:#142132}
+.reviewQuestion.correct{border-left:3px solid #53bc9d}
+.reviewQuestion.incorrect{border-left:3px solid #d88585}
+.reviewQuestion.unanswered{border-left:3px solid #6d7d93}
+.reviewQuestionTop{display:flex;justify-content:space-between;align-items:center;gap:10px;font:10px "DM Mono",monospace;color:var(--muted);letter-spacing:.5px}
+.reviewOutcome{border-radius:7px;padding:6px 9px;white-space:nowrap}
+.reviewOutcome.correct{background:#1b493d;color:#9af3cd}
+.reviewOutcome.incorrect{background:#482d35;color:#ffb5b5}
+.reviewOutcome.unanswered{background:#273342;color:#bdcad6}
+.reviewQuestion h4{font-size:16px;font-weight:650;line-height:1.55;white-space:pre-wrap;margin:16px 0}
+.reviewOptions{display:grid;gap:7px}
+.reviewOption{display:flex;align-items:center;gap:10px;padding:11px;border:1px solid #2c3d50;border-radius:9px;font-size:13px;line-height:1.4}
+.reviewLetter{border:1px solid #4a5a6c;border-radius:6px;min-width:27px;height:27px;display:grid;place-items:center;font:11px "DM Mono",monospace}
+.reviewOption span:nth-child(2){flex:1}
+.reviewOption b,.reviewOption em{font:10px "DM Mono",monospace;color:var(--accent);font-style:normal}
+.reviewOption.isCorrect{background:#143b32;border-color:#347d67}
+.reviewOption.isWrong{background:#3f292f;border-color:#a35261}
+.reviewOption.isWrong em{color:#ffb0b8}
+@media(max-width:700px){.reviewPanel{padding:16px}.reviewTop{flex-direction:column}.reviewQuestion{padding:14px}.reviewOption{align-items:flex-start;flex-wrap:wrap}.reviewOption b,.reviewOption em{margin-left:36px}.reviewQuestionTop{align-items:flex-start;flex-direction:column}}

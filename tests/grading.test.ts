@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {gradeSubmission,hasExamExpired,hasExamExpiredWithGrace,SUBMISSION_GRACE_MS} from "../lib/grading";
+import {gradeSubmission,sanitizeAnswers,hasExamExpired,hasExamExpiredWithGrace,SUBMISSION_GRACE_MS} from "../lib/grading";
 
 const items = [
   {id:"python-1",answer_index:1,points:5},
@@ -70,4 +70,25 @@ test("automatic submissions are accepted during short network grace and expire a
   assert.equal(hasExamExpiredWithGrace(deadline,end),false);
   assert.equal(hasExamExpiredWithGrace(deadline,end+9999),false);
   assert.equal(hasExamExpiredWithGrace(deadline,end+10001),true);
+});
+
+test("autosave keeps only assigned questions and valid option indexes",()=>{
+  const saved=sanitizeAnswers(["python-1","stats-1"],{
+    "python-1":2,"stats-1":0,"forged":3
+  });
+  assert.deepEqual({...saved},{"python-1":2,"stats-1":0});
+});
+
+test("autosave filters malicious, malformed and out-of-range answers",()=>{
+  const saved=sanitizeAnswers(["python-1","stats-1","data-1"],{
+    "python-1":"1","stats-1":-1,"data-1":9,
+    "__proto__":1
+  });
+  assert.equal(Object.keys(saved).length,0);
+});
+
+test("autosave handles empty or invalid payloads safely",()=>{
+  assert.deepEqual(Object.keys(sanitizeAnswers(["python-1"],null)),[]);
+  assert.deepEqual(Object.keys(sanitizeAnswers(["python-1"],[])),[]);
+  assert.deepEqual(Object.keys(sanitizeAnswers(["python-1"],{"python-1":0})),["python-1"]);
 });
