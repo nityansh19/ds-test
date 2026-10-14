@@ -11,6 +11,7 @@ export type Attempt = {
   status: "active" | "submitted" | "disqualified" | "timed_out";
   ends_at: string;
   question_ids: string[];
+  answers: Record<string, number>;
 };
 
 export const tokenHash = (token: string) =>
@@ -21,7 +22,7 @@ export async function currentAttempt(): Promise<Attempt | null> {
   if (!token || !/^[a-f0-9]{64}$/.test(token)) return null;
   const { data, error } = await db()
     .from("attempts")
-    .select("id,name,phone,status,ends_at,question_ids")
+    .select("id,name,phone,status,ends_at,question_ids,answers")
     .eq("session_hash", tokenHash(token))
     .maybeSingle();
   if (error || !data) return null;

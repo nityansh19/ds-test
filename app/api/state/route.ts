@@ -13,7 +13,8 @@ export async function GET() {
       return NextResponse.json({
         state:"active",
         endsAt:attempt.ends_at,
-        questions:await publicQuestions(attempt.question_ids)
+        questions:await publicQuestions(attempt.question_ids),
+        answers:attempt.answers ?? {}
       }, {headers:{"Cache-Control":"no-store"}});
     }
     if (process.env.EXAM_OPEN !== "true") return NextResponse.json({state:"unavailable"}, {headers:{"Cache-Control":"no-store"}});

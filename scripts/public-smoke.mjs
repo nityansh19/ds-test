@@ -19,7 +19,11 @@ async function verify() {
   if (JSON.stringify(data).includes("answer_index")) throw new Error("Public answer key exposure detected");
   const admin = await fetch(BASE + "/api/admin/overview",{redirect:"manual",cache:"no-store"});
   if (admin.status !== 401) throw new Error("Unauthenticated admin endpoint returned HTTP " + admin.status);
-  console.log("Public smoke passed: state=" + data.state + "; private admin endpoint HTTP 401");
+  const answerReview=await fetch(BASE + "/api/admin/attempt/00000000-0000-4000-8000-000000000000",
+    {redirect:"manual",cache:"no-store"});
+  if (answerReview.status !== 401)
+    throw new Error("Unauthenticated answer-review endpoint returned HTTP " + answerReview.status);
+  console.log("Public smoke passed: state=" + data.state + "; admin routes HTTP 401");
 }
 
 let message;

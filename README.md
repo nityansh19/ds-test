@@ -69,3 +69,12 @@ Recruitment is **closed by default**. Set `EXAM_OPEN=true` in your Vercel Produc
 - To invite students, the public production domain must be accessible without Vercel Authentication, while **Preview** should remain protected. Keep the app's `/admin` login enabled.
 - Before public launch, verify the anonymous `/api/admin/overview` response is `401`; open `/api/state` returns `ready` only after setting `EXAM_OPEN=true` and deploying with that setting.
 - Candidate answers and personal information are not published. Decide your organizer contact and retention deadline before inviting students.
+
+## Admin participant answer review
+- In `/admin` → Rankings & Results, use **VIEW ANSWERS** to inspect one student's full test.
+- The private `/api/admin/attempt/{id}` endpoint verifies the admin session before returning saved choices and answer keys; all responses are `private, no-store`.
+- Each reviewed item displays the student's selected choice, the correct choice, whether it was correct / incorrect / unanswered, and the points available.
+- Answers autosave while the exam is active, and the focus-violation beacon also sends a final best-effort snapshot. Submission remains authoritative for the official score.
+- Existing submissions are supported, including questions archived from older test versions. Previously disqualified attempts may have no stored selections because the old application discarded them.
+- If a candidate is disqualified or times out, the official score remains **zero** regardless of saved choices.
+- Keep this information private; do not publish individual responses or contact details.

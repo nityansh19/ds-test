@@ -37,6 +37,9 @@ export default function Home() {
       if(data.state==="active") {
         setQuestions(data.questions);
         setEndsAt(data.endsAt);
+        const saved = data.answers && typeof data.answers === "object" ? data.answers as Record<string,number> : {};
+        answersRef.current = saved;
+        setAnswers(saved);
         transition("active");
       } else transition(data.state==="ready" ? "ready" : data.state==="pending" ? "pending" : "unavailable");
     } catch(e) { setError(e instanceof Error?e.message:"Connection error.");transition("error"); }
@@ -50,9 +53,10 @@ export default function Home() {
       armed.current=false;
       transition("pending");
       try {
-        const ok=navigator.sendBeacon?.("/api/violation",new Blob(["{}"],{type:"application/json"}));
-        if(!ok) void fetch("/api/violation",{method:"POST",keepalive:true,headers:{"Content-Type":"application/json"},body:"{}"});
-      } catch {void fetch("/api/violation",{method:"POST",keepalive:true}).catch(()=>{});}
+        const snapshot=JSON.stringify({answers:answersRef.current});
+        const ok=navigator.sendBeacon?.("/api/violation",new Blob([snapshot],{type:"application/json"}));
+        if(!ok) void fetch("/api/violation",{method:"POST",keepalive:true,headers:{"Content-Type":"application/json"},body:snapshot});
+      } catch {void fetch("/api/violation",{method:"POST",keepalive:true,headers:{"Content-Type":"application/json"},body:JSON.stringify({answers:answersRef.current})}).catch(()=>{});}
     };
     const hidden=()=>{if(document.visibilityState==="hidden") violate();};
     document.addEventListener("visibilitychange",hidden);
@@ -112,6 +116,12 @@ export default function Home() {
     const updated={...answersRef.current,[id]:value};
     answersRef.current=updated;
     setAnswers(updated);
+    // Best-effort autosave, without delaying the candidate's interactions.
+    // Submission remains authoritative; violation beacons carry a snapshot.
+    void fetch("/api/progress",{method:"POST",keepalive:true,
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({answers:updated})
+    }).catch(()=>{});
   }
 
   const seconds=timeLeft(endsAt,now);
